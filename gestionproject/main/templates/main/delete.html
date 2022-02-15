@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+				<center></br></br>
+				<div class="mt-2 bigtitle">
+						<div class="card-body">
+
+
+							<h5 class="card-title">Êtes-vous sûr de vouloir supprimer le produit numéro:</h5>
+							<p class="card-text">"{{product}}"?</p>
+
+							<form action="{% url 'delete_product' product.id %}" method="POST">
+								
+								{% csrf_token %}
+								<a class="btn btn-warning" href="{% url 'product_list' %}">Annuler</a>
+
+								<input class="btn btn-danger" type="submit" value="Confirmer" name="Confirm">
+							</form>
+						
+				</div>
+			</div></center>
+{% endblock %}

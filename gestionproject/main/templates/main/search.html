@@ -1,0 +1,67 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+              <div class="row">
+              <div class="col">
+                <div class="card card-body">
+					<center><h2 class="mt-2 bigtitle">Recherche avancée</h2></center>
+
+                  <form class="form-group" method="get">
+                    {% csrf_token %}
+                    {{myFilter.form|crispy}}
+
+                    <button class="btn btn-primary" type="submit">Chercher</button>
+                  </form>
+                  
+
+				
+                </div>
+              </div>
+              
+            </div>
+			<table width="40%" class="table table-striped">
+				<thead>
+					<tr>
+						<!-- <th >Date</th> -->
+						<th>Id</th>
+						<th>Image</th>
+						<th>Modèle</th>
+						  <th >Catégorie</th>
+						  <th>Statut</th>
+						<th>Info</th>
+						  <th>Modifier</th>
+						  <th>Supprimer</th>
+					</tr>
+				</thead>
+				 
+				<!-- Search Section -->
+				
+			
+				  <!-- Product List -->
+				<tbody>
+			<p> Nombre d'articles: {{ lenquest }} </p>
+                  {% for product in products %}
+				  <tr> 
+					<!-- <td width="100px">{{ product.date_created }}</td> -->
+					<td> {{ product.id}}</td>
+					<td> 
+						<a href="{{ product.image.url }}"  target="_blank">
+  
+						  <img src="{{ product.image.url }}" alt="home" width="80" height="80" />
+						</a>
+					  </td>
+                    <td>{{ product.model }}</td>
+                    <td>{{ product.categorie }}</td>
+                    <td>{{ product.status }}</td>
+					<td>{{ product.info }}</td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_product' product.id %}">Modifier</a></td>
+
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_product' product.id %}">Supprimer</a></td>
+
+
+                </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              
+{% endblock %}

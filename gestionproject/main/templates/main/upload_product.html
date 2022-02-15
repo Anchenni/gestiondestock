@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<center><h2 class="mt-2 bigtitle">Ajouter un produit</h2></center>
+
+<!-- {% load crispy_forms_tags %} -->
+	<div class="container py-5">
+        <div class="row">
+            <div class="col-md-8 offset-2">
+              	<form  method="post" enctype="multipart/form-data">
+                	{% csrf_token %}
+                	{{ form|crispy }}
+                	<button class="btn btn-primary"  type="submit">Enregistrer</button>
+              	</form>
+				<p><a href="{% url 'home' %} ">Retour vers l'accueil</a></p>
+            </div>
+        </div>
+    </div>				 
+{% endblock %}

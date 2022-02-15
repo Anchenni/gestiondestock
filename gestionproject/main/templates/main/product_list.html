@@ -1,0 +1,98 @@
+{% extends "main/base.html" %}
+{% block content %}
+<br><br>
+<center><h2 class="mt-2 bigtitle">Gestion de stock</h2></center>
+
+
+<div class="left">
+	<div class="col-auto">
+		<table width="40%" class="table table-striped">
+			<thead>
+				<tr>
+					<th >Id</th>
+					<!-- <th >Date</th> -->
+					<th>Image</th>
+                	<th>Modèle</th>
+                  	<th >Catégorie</th>
+                  	<th>Statut</th>
+					<th>Info</th>
+                  	<th>Modifier</th>
+                  	<th>Supprimer</th>
+				</tr>
+            </thead>
+             
+            <!-- Search Section -->
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-md-8 offset-2">
+                        <form>
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control form-control-lg" placeholder="Entrez un modèle" />
+                                <div class="input-group-append">
+									<button class="btn btn-primary" type="submit" id="button-addon2">Rechercher</button>
+                                </div>
+                            </div>
+                        </form>
+                        <p><a style="" href="/search">&nbsp&nbsp&nbspRecherche avancée</a></p>
+					</div>
+                </div>
+            </div>
+            <div>
+            <!-- Product Upload -->
+            {% block content_header %}
+            	<h2>Produits</h2>
+              	<p>
+                <a href="{% url 'upload_product' %}" class="btn btn-primary">Ajouter un produit</a>
+              	</p>
+            {% endblock %} 
+            </div>
+              <!-- Product List -->
+            <tbody>
+		<p> Nombre d'articles: {{ lenquest }} </p>
+            {% for product in quests %}
+                <tr>
+					<td>{{ product.id }}</td>
+					<!-- <td width="100px">{{ product.date_created }}</td> -->
+					<td>
+						<a href="{{ product.image.url }}"  target="_blank">
+  
+						  <img src="{{ product.image.url }}" alt="home" width="80" height="80" />
+						</a>
+					  </td>
+                    <td>{{ product.model }}</td>
+                    <td>{{ product.categorie }}</td>
+                    <td>{{ product.status }}</td>
+					<td>{{ product.info }}</td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_product' product.id %}">Modifier</a></td>
+
+                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_product' product.id %}">Supprimer</a></td>
+
+
+                </tr>
+            {% endfor %}
+            {% if quests.has_other_pages %}
+
+              <!-- Pagination -->
+            <nav class="my-3 container">
+                <ul class="pagination">
+                    {% if quests.has_previous %}
+                    	<li class="page-item"><a class="page-link" href="?page={{quests.previous_page_number}}">Précédente</a></li>
+                    {% endif %}
+                    {% for i in quests.paginator.page_range %}
+                    	{% if quests.number == i %}
+                    		<li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+                    	{% else %}
+                    		<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                    	{% endif %}
+                    {% endfor %}
+                    {% if quests.has_next %}
+                    	<li class="page-item"><a class="page-link" href="?page={{quests.next_page_number}}">Prochaine</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div> 
+{% endblock %}
